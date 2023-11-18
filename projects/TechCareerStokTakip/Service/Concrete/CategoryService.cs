@@ -1,59 +1,83 @@
-﻿using Core.Shared;
+﻿using Core.CrossCuttingConcerns.Exceptions;
+using Core.Shared;
 using DataAccess.Repositories.Abstracts;
 using Models.Dtos.RequestDto;
 using Models.Dtos.ResponseDto;
 using Models.Entities;
 using Service.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Service.BusinessRules;
 namespace Service.Concrete;
 
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly CategoryRules _categoryRules;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(ICategoryRepository categoryRepository, CategoryRules categoryRules)
     {
         _categoryRepository = categoryRepository;
+        _categoryRules = categoryRules;
     }
 
     public Response<CategoryResponseDto> Add(CategoryAddRequest categoryAddRequest)
     {
-        Category category = categoryAddRequest;
-
-        _categoryRepository.Add(category);
-
-        CategoryResponseDto response = category;
-
-
-        return new Response<CategoryResponseDto> 
+        try
         {
-            Data = response,
-            Message = "Kategori Eklendi",
-            StatusCode = System.Net.HttpStatusCode.Created
-        };
 
+            Category category = categoryAddRequest;
+
+            _categoryRules.CategoryNameMustBeUnique(category.Name);
+
+            _categoryRepository.Add(category);
+
+            CategoryResponseDto response = category;
+
+
+            return new Response<CategoryResponseDto>
+            {
+                Data = response,
+                Message = "Kategori Eklendi",
+                StatusCode = System.Net.HttpStatusCode.Created
+            };
+        }
+        catch (BusinessException ex)
+        {
+
+            return new Response<CategoryResponseDto>
+            {
+                Message = ex.Message,
+                StatusCode = System.Net.HttpStatusCode.BadRequest
+            };
+        }
     }
 
     public Response<CategoryResponseDto> Delete(int id)
     {
-        Category category = _categoryRepository.GetById(id);
-        _categoryRepository.Delete(category);
-
-        CategoryResponseDto responseDto = category;
-
-        return new Response<CategoryResponseDto>
+        try
         {
-            Data = responseDto,
-            Message = "Kategori Silindi.",
-            StatusCode = System.Net.HttpStatusCode.OK
-        };
+            _categoryRules.CategoryIsPresent(id);
 
+            Category category = _categoryRepository.GetById(id);
+            _categoryRepository.Delete(category);
 
+            CategoryResponseDto responseDto = category;
+
+            return new Response<CategoryResponseDto>
+            {
+                Data = responseDto,
+                Message = "Kategori Silindi.",
+                StatusCode = System.Net.HttpStatusCode.OK
+            };
+        }
+        catch (BusinessException ex)
+        {
+
+            return new Response<CategoryResponseDto>
+            {
+                Message = ex.Message,
+                StatusCode = System.Net.HttpStatusCode.BadRequest
+            };
+        }
     }
 
     public Response<List<CategoryResponseDto>> GetAll()
@@ -71,25 +95,56 @@ public class CategoryService : ICategoryService
 
     public Response<CategoryResponseDto> GetById(int id)
     {
-        Category? category = _categoryRepository.GetById(id);
+        try
+        {
+            _categoryRules.CategoryIsPresent(id);
 
-        CategoryResponseDto response = category;
+            Category? category = _categoryRepository.GetById(id);
 
-        return new Response<CategoryResponseDto> { Data = response,StatusCode = System.Net.HttpStatusCode.OK };
+            CategoryResponseDto response = category;
+
+            return new Response<CategoryResponseDto> { Data = response, StatusCode = System.Net.HttpStatusCode.OK };
+        }
+        catch (BusinessException ex)
+        {
+            return new Response<CategoryResponseDto>
+            {
+                Message = ex.Message,
+                StatusCode = System.Net.HttpStatusCode.BadRequest
+            };
+            
+        }
+
+
+       
     }
 
     public Response<CategoryResponseDto> Update(CategoryUpdateRequest categoryUpdateRequest)
     {
-        Category category = categoryUpdateRequest;
-
-        _categoryRepository.Update(category);
-
-        CategoryResponseDto categoryResponseDto = category;
-        return new Response<CategoryResponseDto> 
+        try
         {
-            Data = categoryResponseDto,
-            Message = "Kategori Güncellendi",
-            StatusCode = System.Net.HttpStatusCode.OK
-        };
+            Category category = categoryUpdateRequest;
+
+            _categoryRules.CategoryNameMustBeUnique(category.Name);
+
+            _categoryRepository.Update(category);
+
+            CategoryResponseDto categoryResponseDto = category;
+            return new Response<CategoryResponseDto>
+            {
+                Data = categoryResponseDto,
+                Message = "Kategori Güncellendi",
+                StatusCode = System.Net.HttpStatusCode.OK
+            };
+        }
+        catch (BusinessException ex)
+        {
+            return new Response<CategoryResponseDto>
+            {
+                Message = ex.Message,
+                StatusCode = System.Net.HttpStatusCode.BadRequest
+            };
+        }
+       
     }
 }
