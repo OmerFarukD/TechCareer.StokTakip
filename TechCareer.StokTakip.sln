@@ -11,15 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unitTest", "unitTest", "{69
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TechCareerStokTakip", "TechCareerStokTakip", "{12A1039D-1B05-49DA-8BCA-7B7559A6A5DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "projects\TechCareerStokTakip\Models\Models.csproj", "{B885F8A3-BAEC-4520-AB1B-E26D10CF5550}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "projects\TechCareerStokTakip\Models\Models.csproj", "{B885F8A3-BAEC-4520-AB1B-E26D10CF5550}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "projects\TechCareerStokTakip\DataAccess\DataAccess.csproj", "{E5C4B4C7-225D-4A72-8FC5-5BECA1B241FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "projects\TechCareerStokTakip\DataAccess\DataAccess.csproj", "{E5C4B4C7-225D-4A72-8FC5-5BECA1B241FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "projects\TechCareerStokTakip\Service\Service.csproj", "{1D1C37FC-3613-4E71-8534-0AD888797051}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "projects\TechCareerStokTakip\Service\Service.csproj", "{1D1C37FC-3613-4E71-8534-0AD888797051}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "projects\TechCareerStokTakip\WebAPI\WebAPI.csproj", "{7ED058CC-1FA7-45C4-8282-6F7DBBC9D49C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "projects\TechCareerStokTakip\WebAPI\WebAPI.csproj", "{7ED058CC-1FA7-45C4-8282-6F7DBBC9D49C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Persistence", "corePackages\Core.Persistence\Core.Persistence.csproj", "{453AB187-370E-4A2F-9DE8-7742528EA307}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence", "corePackages\Core.Persistence\Core.Persistence.csproj", "{453AB187-370E-4A2F-9DE8-7742528EA307}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Shared", "corePackages\Core.Shared\Core.Shared.csproj", "{826E0BDD-0C03-4678-844C-8B4F9773651E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{453AB187-370E-4A2F-9DE8-7742528EA307}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{453AB187-370E-4A2F-9DE8-7742528EA307}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{453AB187-370E-4A2F-9DE8-7742528EA307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{826E0BDD-0C03-4678-844C-8B4F9773651E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{826E0BDD-0C03-4678-844C-8B4F9773651E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{826E0BDD-0C03-4678-844C-8B4F9773651E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{826E0BDD-0C03-4678-844C-8B4F9773651E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{1D1C37FC-3613-4E71-8534-0AD888797051} = {12A1039D-1B05-49DA-8BCA-7B7559A6A5DD}
 		{7ED058CC-1FA7-45C4-8282-6F7DBBC9D49C} = {12A1039D-1B05-49DA-8BCA-7B7559A6A5DD}
 		{453AB187-370E-4A2F-9DE8-7742528EA307} = {D65B46CA-0317-45B4-838D-889865AC0AA8}
+		{826E0BDD-0C03-4678-844C-8B4F9773651E} = {D65B46CA-0317-45B4-838D-889865AC0AA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42FDCEAD-FC30-41B2-904F-6F7E2C2AB938}

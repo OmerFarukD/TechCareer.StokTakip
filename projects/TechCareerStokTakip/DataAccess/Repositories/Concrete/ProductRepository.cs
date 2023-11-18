@@ -34,12 +34,43 @@ namespace DataAccess.Repositories.Concrete
 
         public List<ProductDetailDto> GetDetailsByCategoryId(int categoryId)
         {
-            throw new NotImplementedException();
+            var details = Context.Products.Where(x => x.CategoryId == categoryId).Join(
+                Context.Categories,
+                p => p.CategoryId,
+                c => c.Id,
+                (p, c) => new ProductDetailDto
+                {
+                    CategoryName = c.Name,
+                    Id = p.Id,
+                    Price = p.Price,
+                    Stock = p.Stock,
+                    Name = p.Name,
+
+                }
+                ).ToList();
+
+            return details;
         }
 
-        public ProductDetailDto GetProductDetail(int id)
+        public ProductDetailDto GetProductDetail(Guid id)
         {
-            throw new NotImplementedException();
+            var details = Context.Products.Join(
+              Context.Categories,
+              p => p.CategoryId,
+              c => c.Id,
+              (p, c) => new ProductDetailDto
+              {
+                  CategoryName = c.Name,
+                  Id = p.Id,
+                  Price = p.Price,
+                  Stock = p.Stock,
+                  Name = p.Name,
+
+              }
+              ).SingleOrDefault(x=>x.Id==id);
+
+            return details;
+
         }
     }
 }
