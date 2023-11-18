@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Service.Concrete;
 
-internal class ProductService : IProductService
+public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
 
@@ -24,6 +24,8 @@ internal class ProductService : IProductService
     public Response<ProductResponseDto> Add(ProductAddRequest request)
     {
         Product product = ProductAddRequest.ConvertToEntity(request);
+
+        product.Id = new Guid();
         _productRepository.Add(product);
 
         var data = ProductResponseDto.ConvertToResponse(product);
@@ -70,31 +72,73 @@ internal class ProductService : IProductService
 
     public Response<List<ProductResponseDto>> GetAllByPriceRange(decimal min, decimal max)
     {
-      
+      var products = _productRepository.GetAll(x=> x.Price<=max && x.Price>=min);
+        var response = products.Select(x => ProductResponseDto.ConvertToResponse(x)).ToList();
+
+        return new Response<List<ProductResponseDto>>()
+        {
+            Data = response,
+            StatusCode = System.Net.HttpStatusCode.OK
+        };
+
     }
 
     public Response<List<ProductDetailDto>> GetAllDetails()
     {
-        throw new NotImplementedException();
+        var details = _productRepository.GetAllProductDetails();
+
+        return new Response<List<ProductDetailDto>>()
+        {
+            Data = details,
+            StatusCode = System.Net.HttpStatusCode.OK
+        };
     }
 
     public Response<List<ProductDetailDto>> GetAllDetailsByCategoryId(int categoryId)
     {
-        throw new NotImplementedException();
+        var details = _productRepository.GetDetailsByCategoryId(categoryId);
+        return new Response<List<ProductDetailDto>>()
+        {
+            Data = details,
+            StatusCode = System.Net.HttpStatusCode.OK
+        };
     }
 
     public Response<ProductDetailDto> GetByDetailId(Guid id)
     {
-        throw new NotImplementedException();
+        var detail = _productRepository.GetProductDetail(id);
+
+        return new Response<ProductDetailDto>()
+        {
+            StatusCode = System.Net.HttpStatusCode.OK,
+            Data = detail,
+        };
     }
 
     public Response<ProductResponseDto> GetById(Guid id)
     {
-        throw new NotImplementedException();
+       var product = _productRepository.GetById(id);
+        var response = ProductResponseDto.ConvertToResponse(product);
+        return new Response<ProductResponseDto>() {
+            Data = response,
+            StatusCode= System.Net.HttpStatusCode.OK
+        };
+
     }
 
     public Response<ProductResponseDto> Update(ProductUpdateRequest request)
     {
-        throw new NotImplementedException();
+        Product product = ProductUpdateRequest.ConvertToEntity(request);
+        
+        _productRepository.Update(product);
+
+        var response = ProductResponseDto.ConvertToResponse(product);
+
+        return new Response<ProductResponseDto>()
+        {
+            Data = response,
+            StatusCode = System.Net.HttpStatusCode.OK
+        };
+
     }
 }
