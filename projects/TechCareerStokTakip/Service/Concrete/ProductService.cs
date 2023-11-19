@@ -6,16 +6,16 @@ using Models.Dtos.ResponseDto;
 using Models.Entities;
 using Service.Abstract;
 using Service.BusinessRules;
-
+using Service.BusinessRules.Abstract;
 
 namespace Service.Concrete;
 
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
-    private readonly ProductRules _rules;
+    private readonly IProductRules _rules;
 
-    public ProductService(IProductRepository productRepository, ProductRules rules)
+    public ProductService(IProductRepository productRepository, IProductRules rules)
     {
         _productRepository = productRepository;
         _rules = rules;
